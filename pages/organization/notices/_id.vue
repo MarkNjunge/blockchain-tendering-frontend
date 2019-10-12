@@ -40,19 +40,20 @@ export default {
     };
   },
   async created() {
-    this.tenderId = this.$route.params.id;
+    this.tenderId = decodeURIComponent(this.$route.params.id);
+    const encodedTenderId = encodeURIComponent(this.tenderId);
 
     try {
       let res = await this.$axios({
         method: "get",
-        url: `/api/notices/${this.tenderId}`
+        url: `/api/notices/${encodedTenderId}`
       });
 
       this.notice = res.data;
 
       res = await this.$axios({
         method: "get",
-        url: `/api/bids?noticeId=${this.tenderId}`
+        url: `/api/bids?noticeId=${encodedTenderId}`
       });
 
       this.bids = res.data;

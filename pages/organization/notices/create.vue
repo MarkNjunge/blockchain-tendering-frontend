@@ -96,7 +96,9 @@ export default {
           config: { headers: { "Content-Type": "multipart/form-data" } }
         });
 
-        this.$nuxt.$router.replace({ path: "/dashboard" });
+        this.$nuxt.$router.replace({
+          path: `/organization/notices/${encodeURIComponent(this.ref)}`
+        });
       } catch (e) {
         console.log(e);
         alert(e.message);
