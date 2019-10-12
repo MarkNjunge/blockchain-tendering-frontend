@@ -1,24 +1,28 @@
 <template>
-  <div>{{bids}}</div>
+  <div>
+    <h1>NOTICE BY ID</h1>
+    <br />
+    {{notice}}
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      bids: null
+      notice: null
     };
   },
   async created() {
-    const tenderId = this.$route.params.id;
+    const noticeId = this.$route.params.id;
 
     try {
       const res = await this.$axios({
         method: "get",
-        url: `/api/bids?tenderId=${tenderId}`
+        url: `/api/notices/${noticeId}`
       });
 
-      this.bids = res.data;
+      this.notice = res.data;
     } catch (e) {
       console.log(e);
       alert(e.message);

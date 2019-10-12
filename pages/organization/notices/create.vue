@@ -44,6 +44,16 @@
 
 <script>
 export default {
+  data() {
+    return {
+      openingDate: null,
+      openingVenue: null,
+      closingDate: null,
+      requiredDocuments: null,
+      title: null,
+      ref: null
+    };
+  },
   methods: {
     onFileSelected(event) {
       this.tenderDocument = event.target.files[0];
