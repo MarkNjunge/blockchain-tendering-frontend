@@ -27,7 +27,13 @@
       </div>
       <div class>
         <label for="closingDate">Closing Date</label>
-        <input type="date" name="closingDate" id="closingDate " v-model="closingDate" required />
+        <input
+          type="datetime-local"
+          name="closingDate"
+          id="closingDate "
+          v-model="closingDate"
+          required
+        />
       </div>
       <div class>
         <label for="openingVenue">Opening Venue</label>
@@ -35,7 +41,13 @@
       </div>
       <div class>
         <label for="openingDate">Opening Date</label>
-        <input type="date" name="openingDate" id="openingDate" v-model="openingDate" required />
+        <input
+          type="datetime-local"
+          name="openingDate"
+          id="openingDate"
+          v-model="openingDate"
+          required
+        />
       </div>
       <button type="submit">Publish</button>
     </form>
