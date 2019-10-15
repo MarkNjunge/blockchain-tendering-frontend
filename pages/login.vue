@@ -33,7 +33,17 @@ export default {
 
         window.localStorage.setItem("session", JSON.stringify(session));
 
-        this.$nuxt.$router.replace({ path: "/dashboard" });
+        switch (session.participantType) {
+          case "TenderingOrganization":
+            this.$nuxt.$router.replace({ path: "/organization" });
+            break;
+          case "TenderBidder":
+            this.$nuxt.$router.replace({ path: "/bidder" });
+            break;
+          default:
+            this.$nuxt.$router.replace({ path: "/" });
+            break;
+        }
       } catch (e) {
         console.log(e);
         alert(e.message);
