@@ -1,0 +1,62 @@
+.up-navigation {
+  @apply text-gray-600 cursor-pointer;
+  width: fit-content;
+
+  &-icon {
+    @apply w-2;
+  }
+
+  &-text {
+    @apply ml-2;
+  }
+
+  &:hover {
+    @apply text-gray-800;
+  }
+}
+
+.card {
+  @apply p-8 bg-white rounded border border-gray-400 shadow;
+}
+
+.section-title {
+  @apply text-2xl text-gray-700;
+}
+
+.input-group {
+  @apply flex flex-col;
+
+  .input-label {
+    @apply text-gray-700;
+  }
+
+  .input-field {
+    @apply py-1 px-2 rounded border border-gray-400 text-gray-700;
+
+    &:focus {
+      // @apply shadow-outline;
+      @apply outline-none border-blue-700;
+    }
+  }
+
+  .input-field-disabled {
+    @apply py-1 px-2 bg-gray-200 rounded border border-gray-400 text-gray-700;
+
+    &:focus {
+      // @apply shadow-outline;
+      @apply outline-none border-blue-700;
+    }
+  }
+
+  .input-helper {
+    @apply text-xs text-gray-500;
+  }
+}
+
+.btn {
+  @apply p-2 bg-blue-700 text-white border-b-4 border-blue-800 rounded shadow;
+
+  &:hover {
+    @apply shadow-lg;
+  }
+}
