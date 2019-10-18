@@ -1,40 +1,62 @@
 <template>
-  <div>
-    <form @submit="onSubmit">
-      <div class>
-        <label for="participantType">Participant Type</label>
-        <select name="participantType" id="participantType" v-model="participantType">
+  <div class="container mx-auto px-4 xl:w-1/2 md:w-4/5">
+    <form @submit="onSubmit" class="card" v-if="!downloadToken">
+      <div class="input-group">
+        <label for="participantType" class="input-label">Participant Type</label>
+        <select
+          name="participantType"
+          id="participantType"
+          v-model="participantType"
+          class="input-field"
+        >
           <option value="TenderingOrganization">Tendering Organization</option>
           <option value="TenderBidder">Tender Bidder</option>
         </select>
       </div>
-      <div class>
-        <label for="name">Name</label>
-        <input type="text" name="name" id="name" v-model="name" required />
+      <div class="mt-3 input-group">
+        <label for="name" class="input-label">Name</label>
+        <input type="text" name="name" id="name" v-model="name" class="input-field" required />
       </div>
-      <div class v-if="participantType == 'TenderBidder'">
-        <label for="companyRegNo">Company Registration Number</label>
-        <input type="text" name="companyRegNo" id="companyRegNo" v-model="companyRegNo" required />
+      <div v-if="participantType == 'TenderBidder'" class="mt-3 input-group">
+        <label for="companyRegNo" class="input-label">Company Registration Number</label>
+        <input
+          type="text"
+          name="companyRegNo"
+          id="companyRegNo"
+          v-model="companyRegNo"
+          class="input-field"
+          required
+        />
       </div>
-      <div class>
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" v-model="email" required />
+      <div class="mt-3 input-group">
+        <label for="email" class="input-label">Email</label>
+        <input type="email" name="email" id="email" v-model="email" class="input-field" required />
       </div>
-      <div class>
-        <label for="phone">Phone</label>
-        <input type="number" name="phone" id="phone" v-model="phone" required />
+      <div class="mt-3 input-group">
+        <label for="phone" class="input-label">Phone</label>
+        <input type="number" name="phone" id="phone" v-model="phone" class="input-field" required />
       </div>
-      <div class>
-        <label for="streetAddress">Street Address</label>
-        <input type="text" name="streetAddress" id="streetAddress" v-model="streetAddress" required />
+      <div class="mt-3 input-group">
+        <label for="streetAddress" class="input-label">Street Address</label>
+        <input
+          type="text"
+          name="streetAddress"
+          id="streetAddress"
+          v-model="streetAddress"
+          class="input-field"
+          required
+        />
       </div>
-      <button type="submit">Register</button>
+      <button type="submit" class="btn mt-6 w-full">Register</button>
     </form>
-    <div v-if="downloadToken">
-      <p>Registration successfull!</p>
-      <p>The download for your authentication card should start automatically.</p>
-      <p>Click here to download again</p>
-      <button @click="downloadCard">Download</button>
+    <div v-if="downloadToken" class="card flex flex-col items-center">
+      <p class="text-3xl font-bold">Registration successfull!</p>
+      <p class="mt-4">The download for your authentication card should start automatically.</p>
+      <p class>Click here to download again</p>
+      <button @click="downloadCard" class="mt-2 btn-secondary inline-block w-fit">Download</button>
+      <nuxt-link to="/login">
+        <button class="mt-6 btn">Proceed to login</button>
+      </nuxt-link>
     </div>
   </div>
 </template>

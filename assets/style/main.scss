@@ -89,3 +89,15 @@
     @apply shadow-lg;
   }
 }
+
+.btn-secondary {
+  @apply p-2 border border-blue-800 text-blue-800 rounded;
+
+  &:hover {
+    @apply bg-blue-100;
+  }
+}
+
+.w-fit {
+  width: fit-content;
+}
