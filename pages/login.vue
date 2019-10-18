@@ -1,8 +1,13 @@
 <template>
-  <div class>
-    <h1>Login</h1>
-    <input type="file" name="card" id="card" @change="onFileSelected" />
-    <button @click="upload">Upload</button>
+  <div class="container mx-auto px-4 xl:w-1/2 md:w-4/5">
+    <h1 class="section-title mt-2">Upload your card to login</h1>
+    <div class="card mt-2 mb-8">
+      <div class="input-group">
+        <label for="card" class="input-label">Card File</label>
+        <input type="file" name="card" id="card" @change="onFileSelected" class="input-field" />
+      </div>
+      <button @click="upload" class="mt-6 w-full btn">Login</button>
+    </div>
   </div>
 </template>
 
