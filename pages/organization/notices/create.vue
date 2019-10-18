@@ -29,7 +29,14 @@
         </div>
         <div class="mt-3 input-group">
           <label for="tenderDocument" class="input-label">Tender Document</label>
-          <input type="file" name="card" id="card" class="input-field" @change="onFileSelected" />
+          <input
+            type="file"
+            name="card"
+            id="card"
+            class="input-field"
+            @change="onFileSelected"
+            required
+          />
         </div>
         <div class="mt-3 input-group">
           <label for="requiredDocuments" class="input-label">Required Documents</label>
@@ -157,9 +164,15 @@ export default {
       if (this.bidBond) {
         requiredDocuments.unshift("bid bond");
       }
-      this.extraRequiredDocuments.split(",").forEach(v => {
-        requiredDocuments.push(v.trim());
-      });
+      if (this.extraRequiredDocuments != "") {
+        this.extraRequiredDocuments
+          .split(",")
+          .map(v => v.trim())
+          .forEach(v => {
+            console.log(`V: ${v}`);
+            requiredDocuments.push(v);
+          });
+      }
 
       const bodyFormData = new FormData();
       bodyFormData.append("id", this.ref);
