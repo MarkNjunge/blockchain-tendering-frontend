@@ -128,7 +128,7 @@ export default {
       nhif: true,
       kra: true,
       bidBond: false,
-      extraRequiredDocuments: null,
+      extraRequiredDocuments: "",
       title: null,
       ref: null
     };
@@ -147,10 +147,7 @@ export default {
         return;
       }
 
-      const requiredDocuments = this.extraRequiredDocuments
-        .split(",")
-        .map(v => v.trim());
-
+      const requiredDocuments = [];
       if (this.nhif) {
         requiredDocuments.unshift("nhif");
       }
@@ -160,12 +157,18 @@ export default {
       if (this.bidBond) {
         requiredDocuments.unshift("bid bond");
       }
+      this.extraRequiredDocuments.split(",").forEach(v => {
+        requiredDocuments.push(v.trim());
+      });
 
       const bodyFormData = new FormData();
       bodyFormData.append("id", this.ref);
       bodyFormData.append("document", this.tenderDocument);
       bodyFormData.append("title", this.title);
-      bodyFormData.append("requiredDocuments", JSON.stringify({}));
+      bodyFormData.append(
+        "requiredDocuments",
+        JSON.stringify(requiredDocuments)
+      );
       bodyFormData.append("closingDate", this.closingDate);
       bodyFormData.append("openingVenue", this.openingVenue);
       bodyFormData.append("openingDate", this.openingDate);
