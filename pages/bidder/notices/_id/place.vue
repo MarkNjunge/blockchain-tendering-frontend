@@ -1,51 +1,85 @@
 <template>
-  <div>
-    <p>Place bid</p>
-    <form @submit="submit" v-if="tenderNotice">
-      <div class>
-        <label for="tenderId">Tender Reference</label>
+  <div class="container mx-auto px-4 xl:w-1/2 md:w-4/5">
+    <nuxt-link to="/organization" class="up-navigation">
+      <svg class="up-navigation-icon">
+        <use href="#back" />
+      </svg>
+      <p class="up-navigation-text">BACK</p>
+    </nuxt-link>
+    <h1 class="section-title mt-2">Place a Bid</h1>
+    <form @submit="submit" v-if="tenderNotice" class="mt-2 mb-8 card">
+      <div class="input-group">
+        <label for="tenderId" class="input-label">Tender Reference</label>
         <input
           type="text"
           name="tenderId"
           id="TenderId"
           v-bind:value="tenderNotice.tenderId"
+          class="input-field-disabled"
           disabled
         />
       </div>
 
-      <div class>
-        <label for="tenderTitle">Tender Title</label>
+      <div class="mt-3 input-group">
+        <label for="tenderTitle" class="input-label">Tender Title</label>
         <input
           type="text"
           name="tenderTitle"
           id="tenderTitle"
           v-bind:value="tenderNotice.title"
+          class="input-field-disabled"
           disabled
         />
       </div>
-      <div class>
-        <label for="bidSummary">Bid Summary</label>
-        <input type="text" name="bidSummary" id="bidSummary" v-model="bidSummary" />
+      <div class="mt-3 input-group">
+        <label for="bidSummary" class="input-label">Bid Summary</label>
+        <input
+          type="text"
+          name="bidSummary"
+          id="bidSummary"
+          v-model="bidSummary"
+          class="input-field"
+        />
       </div>
 
-      <div class>
-        <label for="bidDocument">Bid Document</label>
-        <input type="file" name="bidDocument" id="bidDocument" @change="onFileSelected" />
+      <div class="mt-3 input-group">
+        <label for="bidDocument" class="input-label">Bid Document</label>
+        <input
+          type="file"
+          name="bidDocument"
+          id="bidDocument"
+          @change="onFileSelected"
+          class="input-field"
+        />
       </div>
 
-      <div class v-for="(doc, index) in tenderNotice.requiredDocuments" :key="index">
-        <div class>
-          <label v-bind:for="doc">{{doc}}</label>
-          <input type="file" v-bind:name="doc" v-bind:id="doc" @change="onFileSelected" />
-        </div>
+      <div
+        class="mt-3 input-group"
+        v-for="(doc, index) in tenderNotice.requiredDocuments"
+        :key="index"
+      >
+        <label v-bind:for="doc.ref" class="input-label">{{doc.name}}</label>
+        <input
+          type="file"
+          v-bind:name="doc.ref"
+          v-bind:id="doc.ref"
+          @change="onFileSelected"
+          class="input-field"
+        />
       </div>
 
-      <button>Submit</button>
+      <button class="mt-6 w-full btn">Submit</button>
     </form>
   </div>
 </template>
 
 <script>
+String.prototype.capitalize = function() {
+  return this.replace(/(?:^|\s)\S/g, function(a) {
+    return a.toUpperCase();
+  });
+};
+
 export default {
   data() {
     return {
@@ -63,6 +97,13 @@ export default {
       url: `/api/notices/${encodedNoticeId}`
     });
 
+    res.data.requiredDocuments = res.data.requiredDocuments.map(doc => ({
+      ref: doc,
+      name: doc
+        .replace("_", " ")
+        .toLowerCase()
+        .capitalize()
+    }));
     this.tenderNotice = res.data;
   },
   methods: {
@@ -95,7 +136,7 @@ export default {
           config: { headers: { "Content-Type": "multipart/form-data" } }
         });
 
-        this.$nuxt.$router.replace({ path: "/dashboard" });
+        this.$nuxt.$router.replace({ path: "/bidder" });
       } catch (e) {
         console.log(e);
         alert(e.message);
