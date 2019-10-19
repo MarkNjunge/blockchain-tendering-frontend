@@ -10,16 +10,18 @@
 export default {
   data() {
     return {
+      noticeId: null,
       notice: null
     };
   },
   async created() {
-    const noticeId = this.$route.params.id;
+    this.noticeId = decodeURIComponent(this.$route.params.id);
+    const encodedNoticeId = encodeURIComponent(this.noticeId);
 
     try {
       const res = await this.$axios({
         method: "get",
-        url: `/api/notices/${noticeId}`
+        url: `/api/notices/${encodedNoticeId}`
       });
 
       this.notice = res.data;

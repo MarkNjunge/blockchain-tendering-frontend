@@ -55,11 +55,12 @@ export default {
     };
   },
   async created() {
-    const tenderId = this.$route.params.id;
+    this.noticeId = decodeURIComponent(this.$route.params.id);
+    const encodedNoticeId = encodeURIComponent(this.noticeId);
 
     const res = await this.$axios({
       method: "GET",
-      url: `/api/notices/${tenderId}`
+      url: `/api/notices/${encodedNoticeId}`
     });
 
     this.tenderNotice = res.data;
