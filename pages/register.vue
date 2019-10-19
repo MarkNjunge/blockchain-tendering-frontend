@@ -63,6 +63,7 @@
 
 <script>
 export default {
+  layout: "no-bar",
   data() {
     return {
       participantType: "TenderingOrganization",

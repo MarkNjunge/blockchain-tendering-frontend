@@ -33,6 +33,7 @@ export default {
       });
 
       window.localStorage.removeItem("session");
+      window.localStorage.removeItem("profile");
       this.$nuxt.$router.replace({ path: "/login" });
     }
   }

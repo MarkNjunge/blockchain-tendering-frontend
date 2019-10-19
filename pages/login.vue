@@ -13,6 +13,7 @@
 
 <script>
 export default {
+  layout: "no-bar",
   data() {
     return {
       selectedFile: null
@@ -32,11 +33,16 @@ export default {
           data: bodyFormData,
           config: { headers: { "Content-Type": "multipart/form-data" } }
         });
-        console.log("Logged in!");
 
         const session = res.data.meta.session;
-
         window.localStorage.setItem("session", JSON.stringify(session));
+
+        const profileRes = await this.$axios({
+          method: "get",
+          url: "/api/profile"
+        });
+
+        window.localStorage.setItem("profile", JSON.stringify(profileRes.data));
 
         switch (session.participantType) {
           case "TenderingOrganization":

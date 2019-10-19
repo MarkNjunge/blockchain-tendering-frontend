@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  layout: "no-bar",
   async mounted() {
     if (!window.localStorage.getItem("session")) {
       console.log("Not logged in");
@@ -19,6 +20,7 @@ export default {
     });
 
     window.localStorage.removeItem("session");
+    window.localStorage.removeItem("profile");
     this.$nuxt.$router.replace({ path: "/login" });
   }
 };
