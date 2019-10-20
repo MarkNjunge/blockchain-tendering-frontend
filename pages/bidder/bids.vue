@@ -9,12 +9,13 @@ export default {
       bids: "Loading..."
     };
   },
-  async asyncData({ $axios }) {
-    const res = await $axios.$get("/api/bids/forCurrent");
+  async mounted() {
+    const res = await this.$axios({
+      method: "GET",
+      url: "/api/bids/forCurrent"
+    });
 
-    return {
-      bids: res
-    };
+    this.bids = res.data;
   }
 };
 </script>

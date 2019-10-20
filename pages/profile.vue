@@ -28,7 +28,6 @@ export default {
       console.log(e.response.data.message);
       this.profile = e.response.data.message;
     }
-  },
-  async asyncData({ $axios }) {}
+  }
 };
 </script>

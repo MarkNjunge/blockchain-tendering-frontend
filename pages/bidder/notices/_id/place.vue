@@ -88,7 +88,7 @@ export default {
       uploadedDocs: {}
     };
   },
-  async created() {
+  async mounted() {
     this.noticeId = decodeURIComponent(this.$route.params.id);
     const encodedNoticeId = encodeURIComponent(this.noticeId);
 

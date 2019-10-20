@@ -1,3 +1,6 @@
+require('dotenv').config()
+
+const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:3000'
 
 export default {
   server: {
@@ -69,9 +72,12 @@ export default {
   },
   proxy: {
     '/api/': {
-      target: 'http://localhost:3000',
+      target: apiBaseUrl,
       pathRewrite: { '^/api/': '' },
       withCredetntials: true
     }
+  },
+  env: {
+    apiBaseUrl
   }
 }

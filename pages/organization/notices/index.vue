@@ -12,12 +12,13 @@ export default {
       notices: "Loading..."
     };
   },
-  async asyncData({ $axios }) {
-    const res = await $axios.$get("/api/notices/forCurrent");
+  async mounted() {
+    const res = await this.$axios({
+      method: "get",
+      url: "/api/notices/forCurrent"
+    });
 
-    return {
-      notices: res
-    };
+    this.notices = res.data;
   }
 };
 </script>

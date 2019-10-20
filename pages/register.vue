@@ -95,18 +95,18 @@ export default {
 
         this.downloadToken = res.headers["x-card-download-token"];
 
-        window.location = `http://localhost:3000/files/download?token=${encodeURIComponent(
-          this.downloadToken
-        )}`;
+        window.location = `${
+          process.env.apiBaseUrl
+        }/files/download?token=${encodeURIComponent(this.downloadToken)}`;
       } catch (e) {
         console.log(e);
         alert(e.message);
       }
     },
     downloadCard() {
-      window.location = `http://localhost:3000/files/download?token=${encodeURIComponent(
-        this.downloadToken
-      )}`;
+      window.location = `${
+        process.env.apiBaseUrl
+      }/files/download?token=${encodeURIComponent(this.downloadToken)}`;
     }
   }
 };
