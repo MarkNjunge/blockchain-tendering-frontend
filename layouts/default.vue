@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <nuxt id="page-content" class="pt-4" />
+    <nuxt id="page-content" />
   </div>
 </template>
 
