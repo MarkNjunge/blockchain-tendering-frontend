@@ -98,10 +98,41 @@
   @apply p-2 border border-blue-800 text-blue-800 rounded;
 
   &:hover {
-    @apply bg-blue-100;
+    @apply bg-blue-200;
   }
 }
 
 .w-fit {
   width: fit-content;
+}
+
+.h-fit {
+  height: fit-content;
+}
+
+.action-button {
+  @apply mr-4 h-8 w-8 fill-current cursor-pointer bg-gray-400 p-1 rounded;
+
+  &:hover {
+    @apply bg-gray-500;
+  }
+}
+
+.tag {
+  @apply py-1 px-2 ml-2 font-bold rounded text-sm;
+  width: fit-content;
+}
+
+td {
+  @apply h-16 py-4 px-6 border-b border-gray-300;
+  // @apply py-4 px-6 border-b border-gray-300;
+}
+
+.table-btn {
+  @apply px-1 rounded border border-blue-700 text-blue-700 cursor-pointer;
+  width: fit-content;
+
+  &:hover {
+    @apply bg-blue-200;
+  }
 }

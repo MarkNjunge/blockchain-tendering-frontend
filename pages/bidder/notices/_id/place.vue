@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto px-4 xl:w-1/2 md:w-4/5">
-    <nuxt-link to="/organization" class="up-navigation">
+    <nuxt-link to="/bidder" class="up-navigation">
       <svg class="up-navigation-icon">
         <use href="#back" />
       </svg>
