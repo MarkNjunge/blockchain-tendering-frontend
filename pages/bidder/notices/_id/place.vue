@@ -1,11 +1,11 @@
 <template>
-  <div class="container mx-auto px-4 xl:w-1/2 md:w-4/5">
-    <nuxt-link to="/bidder" class="up-navigation">
+  <div class="mt-8 container mx-auto px-4 xl:w-1/2 md:w-4/5">
+    <div to="/bidder" class="up-navigation" @click="back">
       <svg class="up-navigation-icon">
         <use href="#back" />
       </svg>
       <p class="up-navigation-text">BACK</p>
-    </nuxt-link>
+    </div>
     <h1 class="section-title mt-2">Place a Bid</h1>
     <form @submit="submit" v-if="tenderNotice" class="mt-2 mb-8 card">
       <div class="input-group">
@@ -107,6 +107,9 @@ export default {
     this.tenderNotice = res.data;
   },
   methods: {
+    back() {
+      window.history.back();
+    },
     onFileSelected(event) {
       const documentName = event.target.name;
       const file = event.target.files[0];
