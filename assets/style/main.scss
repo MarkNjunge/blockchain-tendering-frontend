@@ -123,16 +123,35 @@
   width: fit-content;
 }
 
-td {
-  @apply h-16 py-4 px-6 border-b border-gray-300;
-  // @apply py-4 px-6 border-b border-gray-300;
-}
+table {
+  @apply text-left w-full border-collapse;
+  @apply p-8 bg-white rounded border border-gray-400 shadow;
 
-.table-btn {
-  @apply px-1 rounded border border-blue-700 text-blue-700 cursor-pointer;
-  width: fit-content;
+  thead {
+    tr {
+      @apply bg-gray-100 font-bold uppercase text-sm text-gray-800 border-b border-gray-500;
 
-  &:hover {
-    @apply bg-blue-200;
+      th {
+        @apply py-4 px-6;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        @apply py-2 px-6 border-b border-gray-300;
+        // @apply py-4 px-6 border-b border-gray-300;
+      }
+    }
+  }
+
+  button {
+    @apply px-1 rounded border border-blue-700 text-blue-700 cursor-pointer;
+    width: fit-content;
+
+    &:hover {
+      @apply bg-blue-200;
+    }
   }
 }

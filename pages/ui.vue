@@ -25,5 +25,42 @@
       </div>
       <button class="mt-4 btn">Download</button>
     </div>
+
+    <table class>
+      <thead>
+        <tr>
+          <th>Number</th>
+          <th>Name</th>
+          <th>Year of Birth</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>0</td>
+          <td>Mark</td>
+          <td>1998</td>
+          <td>
+            <button>Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>Mark</td>
+          <td>1998</td>
+          <td>
+            <button>Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>Mark</td>
+          <td>1998</td>
+          <td>
+            <button>Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
