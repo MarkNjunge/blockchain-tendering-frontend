@@ -139,7 +139,7 @@ export default {
           config: { headers: { "Content-Type": "multipart/form-data" } }
         });
 
-        this.$nuxt.$router.replace({ path: "/bidder" });
+        this.$nuxt.$router.push({ path: "/bidder" });
       } catch (e) {
         console.log(e);
         alert(e.message);

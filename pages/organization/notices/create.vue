@@ -193,7 +193,7 @@ export default {
           config: { headers: { "Content-Type": "multipart/form-data" } }
         });
 
-        this.$nuxt.$router.replace({
+        this.$nuxt.$router.push({
           path: `/organization/notices/${encodeURIComponent(this.ref)}`
         });
       } catch (e) {

@@ -106,7 +106,7 @@ export default {
       }
     },
     openNotice(notice) {
-      this.$nuxt.$router.replace({
+      this.$nuxt.$router.push({
         path: `/bidder/notices/${encodeURIComponent(notice.tenderId)}`
       });
     }
