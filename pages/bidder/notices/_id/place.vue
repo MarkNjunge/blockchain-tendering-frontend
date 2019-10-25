@@ -140,7 +140,7 @@ export default {
         });
 
         this.$nuxt.$router.push({
-          path: `/bidder/notices${encodeURIComponent(
+          path: `/bidder/notices/${encodeURIComponent(
             this.tenderNotice.tenderId
           )}`
         });
