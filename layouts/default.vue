@@ -4,12 +4,12 @@
     <symbols></symbols>
     <div class="nav bg-white py-3 shadow border-b-2 border-blue-400 text-gray-800">
       <div class="container mx-auto flex justify-between items-center">
-        <div class="flex items-center">
+        <nuxt-link :to="homePageUrl" class="flex items-center">
           <svg class="w-10 h-10 fill-current">
             <use href="#logo" />
           </svg>
           <p class="ml-4 text-xl">BLOCK-T</p>
-        </div>
+        </nuxt-link>
         <div class="flex items-center" v-if="orgName">
           <p class>{{orgName}}</p>
           <div class="ml-4 w-8 h-8 bg-white rounded-full border border-gray-400 bg-gray-200"></div>
@@ -29,7 +29,8 @@ export default {
   data() {
     return {
       orgName: null,
-      profilePicData: null
+      profilePicData: null,
+      homePageUrl: "#"
     };
   },
   async mounted() {
@@ -37,6 +38,16 @@ export default {
     if (profile) {
       profile = JSON.parse(profile);
       this.orgName = profile.name;
+    }
+
+    let session = window.localStorage.getItem("session");
+    if (session) {
+      session = JSON.parse(session);
+      if (session.participantType == "TenderingOrganization") {
+        this.homePageUrl = "/organization";
+      } else if (session.participantType == "TenderBidder") {
+        this.homePageUrl = "/bidder";
+      }
     }
   }
 };
