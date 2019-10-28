@@ -3,6 +3,48 @@
     <div class="pt-4 container mx-auto" v-if="!notice">
       <p>Loading...</p>
     </div>
+    <div id="myModal" class="modal" v-if="rejection">
+      <div class="modal-content card container mx-auto px-4 xl:w-1/2 md:w-4/5">
+        <div class @click="closeRejectBidUI">Close</div>
+        <div class="section-title">Reject Tender Bid</div>
+        <div class="input-group">
+          <label for="bidId" class="input-label">Tender Bid ID</label>
+          <input
+            type="text"
+            name="bidId"
+            id="bidId"
+            class="input-field-disabled"
+            v-model="rejection.bidId"
+            disabled
+          />
+        </div>
+        <div class="mt-3 input-group">
+          <label for="rejectionReason" class="input-label">Rejection reason</label>
+          <select
+            class="input-field"
+            name="rejectionReason"
+            id="rejectionReason"
+            v-model="rejection.rejectionReason"
+            required
+          >
+            <option value="UNRESPONSIVE">Unresponsive (Does not meet requirements for tender)</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+        <div class="mt-3 input-group">
+          <label for="rejectionReasonNarrative" class="input-label">Reason narrative</label>
+          <input
+            type="textarea"
+            name="rejectionReasonNarrative"
+            id="rejectionReasonNarrative"
+            class="input-field"
+            v-model="rejection.rejectionReasonNarrative"
+            required
+          />
+        </div>
+        <button class="mt-6 w-full btn" @click="rejectBid">Reject</button>
+      </div>
+    </div>
     <div v-if="notice">
       <div class="bg-gray-200">
         <div class="pt-4 pb-4 container mx-auto">
@@ -106,7 +148,7 @@
                     title="Reject bid"
                     class="mr-2 p-1 w-8 h-8 rounded bg-red-200 text-red-800 hover:bg-red-600 hover:text-white fill-current cursor-pointer"
                     v-if="canBeRejected(bid)"
-                    @click="rejectBid(bid.bidId)"
+                    @click="showRejectBidUI(bid.bidId)"
                   >
                     <use href="#vote-nay" />
                   </svg>
@@ -133,8 +175,7 @@ export default {
       notice: null,
       bids: null,
       tenderId: null,
-      rejectionReason: null,
-      rejectionNarrative: null
+      rejection: null
     };
   },
   computed: {},
@@ -199,24 +240,33 @@ export default {
         alert(e.response.data.message || e.message);
       }
     },
-    async rejectBid(bidId) {
-      console.log(`Rejecting ${bidId}`);
-      // TODO Reject bid
-      // try {
-      //   const res = await this.$axios({
-      //     method: "post",
-      //     url: `/api/bids/${encodeURIComponent(bidId)}/reject`,
-      //     data: {
-      //       reason: this.rejectionReason,
-      //       reasonNarrative: this.rejectionNarrative
-      //     }
-      //   });
+    async showRejectBidUI(bidId) {
+      this.rejection = {
+        bidId,
+        rejectionReason: null,
+        rejectionReasonNarrative: null
+      };
+    },
+    async closeRejectBidUI() {
+      this.rejection = null;
+    },
+    async rejectBid() {
+      console.log(this.rejection);
 
-      //   alert("The bid has been rejected.");
-      // } catch (e) {
-      //   console.log(e);
-      //   alert(e.response.data.message || e.message);
-      // }
+      try {
+        const res = await this.$axios({
+          method: "post",
+          url: `/api/bids/${encodeURIComponent(this.rejection.bidId)}/reject`,
+          data: {
+            reason: this.rejection.rejectionReason,
+            reasonNarrative: this.rejection.rejectionReasonNarrative
+          }
+        });
+        alert("The bid has been rejected.");
+      } catch (e) {
+        console.log(e);
+        alert(e.response.data.message || e.message);
+      }
     },
     async downloadDocument() {
       try {
@@ -259,7 +309,11 @@ export default {
       }
     },
     canBeRejected(bid) {
-      if (bid.status == "ACCEPTED" || bid.status == "WITHDRAWN") {
+      if (
+        bid.status == "ACCEPTED" ||
+        bid.status == "WITHDRAWN" ||
+        bid.status == "REJECTED"
+      ) {
         return false;
       } else {
         return true;
@@ -268,3 +322,41 @@ export default {
   }
 };
 </script>
+
+<style lang="css">
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  /* width: 80%; Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
