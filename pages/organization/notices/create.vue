@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto px-4 xl:w-1/2 md:w-4/5">
-    <nuxt-link to="/organization" class="up-navigation">
+    <nuxt-link to="/organization" class="mt-4 up-navigation">
       <!-- M1 -->
       <svg viewBox="0 0 320 512" class="up-navigation-icon">
         <path
