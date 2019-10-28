@@ -93,17 +93,24 @@
               <td v-for="(doc, index) in bid.requiredDocuments" :key="index">
                 <p class="table-btn" @click="downloadFile(doc.documentRef)">Download</p>
               </td>
-              <td class="flex justify-between">
-                <p
-                  class="px-2 text-white bg-green-700 w-fit h-fit rounded cursor-pointer hover:bg-green-600"
-                  v-if="canBeWinner(bid)"
-                  @click="selectWinningBid(bid.bidId)"
-                >Winner</p>
-                <p
-                  class="px-2 text-white bg-red-700 w-fit h-fit rounded cursor-pointer hover:bg-red-600"
-                  v-if="canBeRejected(bid)"
-                  @click="rejectBid(bid.bidId)"
-                >Reject</p>
+              <td>
+                <div class="flex">
+                  <svg
+                    class="mr-2 p-1 w-8 h-8 rounded bg-green-200 text-green-800 hover:bg-green-600 hover:text-white fill-current cursor-pointer"
+                    v-if="canBeWinner(bid)"
+                    @click="selectWinningBid(bid.bidId)"
+                  >
+                    <use href="#vote-yea" />
+                  </svg>
+                  <svg
+                    title="Reject bid"
+                    class="mr-2 p-1 w-8 h-8 rounded bg-red-200 text-red-800 hover:bg-red-600 hover:text-white fill-current cursor-pointer"
+                    v-if="canBeRejected(bid)"
+                    @click="rejectBid(bid.bidId)"
+                  >
+                    <use href="#vote-nay" />
+                  </svg>
+                </div>
               </td>
             </tr>
           </tbody>
