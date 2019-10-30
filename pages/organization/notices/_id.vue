@@ -68,24 +68,34 @@
           </div>
           <p class="px-2 bg-gray-300 rounded text-xs inline-block">{{notice.tenderId}}</p>
           <div class="mt-2">
-            <h3 class="text-gray-700 text-sm">Tender Document</h3>
             <div
-              class="flex w-fit cursor-pointer border border-blue-700 px-2 py-1 rounded hover:bg-blue-100 text-blue-700"
+              class="flex items-center w-fit cursor-pointer py-1 px-1 rounded border border-blue-700 bg-blue-100 text-blue-800 hover:bg-blue-700 hover:text-white"
               @click="downloadDocument()"
             >
               <svg class="h-6 w-6 fill-current">
                 <use href="#download-document" />
               </svg>
-              <p class="ml-2">Download</p>
+              <p class="ml-2">Tender Document</p>
             </div>
-            <p class="mt-1">SHA256 hash: {{notice.tenderDocument.documentHash}}</p>
+            <p class="mt-1 text-xs text-gray-700">SHA-256: {{notice.tenderDocument.documentHash}}</p>
           </div>
-          <div class="mt-2">
-            <h3 class="text-gray-700 text-sm">Submission Details</h3>
-            <p>Required Documents: {{notice.requiredDocumentsString}}</p>
-            <p>Submission Deadline: {{notice.submissionClosingDate}}</p>
-            <p>Opening Date: {{notice.openingDate}}</p>
-            <p>Opening Venue: {{notice.openingVenue}}</p>
+          <div class="mt-2 flex flex-wrap justify-between">
+            <div class="mt-2">
+              <p class="text-gray-600 text-sm">Required Documents</p>
+              <p>{{notice.requiredDocumentsString}}</p>
+            </div>
+            <div class="mt-2">
+              <p class="text-gray-600 text-sm">Submission Closing Date</p>
+              <p>{{notice.submissionClosingDate}}</p>
+            </div>
+            <div class="mt-2">
+              <p class="text-gray-600 text-sm">Opening Date</p>
+              <p>{{notice.openingDate}}</p>
+            </div>
+            <div class="mt-2">
+              <p class="text-gray-600 text-sm">Opening Venue</p>
+              <p>{{notice.openingVenue}}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -130,10 +140,13 @@
                 <p class="tag bg-red-200 text-red-700" v-if="bid.status == 'REJECTED'">Rejected</p>
               </td>
               <td>
-                <p class="table-btn" @click="downloadFile(bid.bidDocument.documentRef)">Download</p>
+                <button
+                  class="table-btn"
+                  @click="downloadFile(bid.bidDocument.documentRef)"
+                >Download</button>
               </td>
               <td v-for="(doc, index) in bid.requiredDocuments" :key="index">
-                <p class="table-btn" @click="downloadFile(doc.documentRef)">Download</p>
+                <button class="table-btn" @click="downloadFile(doc.documentRef)">Download</button>
               </td>
               <td>
                 <div class="flex">

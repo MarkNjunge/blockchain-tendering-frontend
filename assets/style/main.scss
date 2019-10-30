@@ -154,7 +154,7 @@ table {
     width: fit-content;
 
     &:hover {
-      @apply bg-blue-200;
+      @apply bg-blue-700 text-white;
     }
   }
 }
