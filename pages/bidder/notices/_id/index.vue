@@ -7,14 +7,15 @@
             <div class="w-full">
               <div class="mt-2 flex items-center">
                 <h2 class="text-2xl">{{notice.title}}</h2>
-                <p
-                  class="tag ml-2 bg-gray-400 text-gray-700"
-                  v-if="notice.status =='PUBLISHED'"
-                >{{notice.status}}</p>
-                <p
-                  class="tag ml-2 bg-green-200 text-green-700"
-                  v-if="notice.status =='AWARDED'"
-                >{{notice.status}}</p>
+                <div class>
+                  <p class="tag tag-gray" v-if="notice.status =='PUBLISHED'">{{notice.status}}</p>
+                  <p class="tag tag-red" v-else-if="notice.status =='CLOSED'">{{notice.status}}</p>
+                  <p class="tag tag-green" v-else-if="notice.status =='AWARDED'">{{notice.status}}</p>
+                  <p
+                    class="tag tag-orange"
+                    v-else-if="notice.status =='WITHDRAWN'"
+                  >{{notice.status}}</p>
+                </div>
               </div>
               <p class="px-2 bg-gray-300 rounded text-xs inline-block">{{notice.tenderId}}</p>
               <div class="mt-4 flex justify-between">
@@ -45,7 +46,12 @@
       <div class="mt-2 card-p-6">
         <div class="flex items-baseline">
           <p class="mt-2 font-bold">{{bid.bidId}}</p>
-          <p class="ml-2 px-2 text-sm rounded bg-gray-300 text-gray-800">{{bid.status}}</p>
+          <div class>
+            <p class="tag tag-gray" v-if="bid.status == 'ACTIVE'">{{bid.status}}</p>
+            <p class="tag tag-green" v-else-if="bid.status == 'ACCEPTED'">{{bid.status}}</p>
+            <p class="tag tag-orange" v-else-if="bid.status == 'WITHDRAWN'">{{bid.status}}</p>
+            <p class="tag tag-red" v-else-if="bid.status == 'REJECTED'">{{bid.status}}</p>
+          </div>
         </div>
         <p class="mt-1 text-gray-700">{{bid.summary}}</p>
         <div class="flex mt-4">

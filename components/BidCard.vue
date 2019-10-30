@@ -5,7 +5,12 @@
   >
     <div class="flex justify-between items-baseline">
       <h2 class="text-xl">{{bid.bidId}}</h2>
-      <p class="tag bg-gray-200 text-gray-800">{{bid.status}}</p>
+      <div class>
+        <p class="tag tag-gray" v-if="bid.status == 'ACTIVE'">{{bid.status}}</p>
+        <p class="tag tag-green" v-else-if="bid.status == 'ACCEPTED'">{{bid.status}}</p>
+        <p class="tag tag-orange" v-else-if="bid.status == 'WITHDRAWN'">{{bid.status}}</p>
+        <p class="tag tag-red" v-else-if="bid.status == 'REJECTED'">{{bid.status}}</p>
+      </div>
     </div>
     <p class="text-gray-700">{{bid.tenderNotice.tenderId}}</p>
     <div class="mt-4 flex justify-between items-baseline">
