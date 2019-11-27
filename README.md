@@ -1,14 +1,18 @@
-# block-t
+# Block-T
 
-> Blockchain-based tendering
+Frontend for a Blockchain-based tendering system.
 
-## Build Setup
+See backend repository: [MarkNjunge/blockchain-tendering-backend](https://github.com/MarkNjunge/blockchain-tendering-backend)
+
+Submitted as a 4th year project to [Strathmore University](https://www.strathmore.edu/).
+
+## Installation
 
 ``` bash
 # install dependencies
 $ yarn install
 
-# serve with hot reload at localhost:3000
+# serve with hot reload at localhost:8080
 $ yarn dev
 
 # build for production and launch server
