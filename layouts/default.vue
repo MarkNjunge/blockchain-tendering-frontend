@@ -11,6 +11,26 @@
           <p class="ml-4 text-xl">BLOCK-T</p>
         </nuxt-link>
         <div class="flex items-center" v-if="orgName">
+          <div class="mr-6" v-if="participantType == 'TenderBidder'">
+            <nuxt-link
+              to="/bidder/notices"
+              class="nav-link mr-2 text-sm text-gray-600 hover:text-blue-700 border-b-2 border-white hover:border-blue-700"
+            >NOTICES</nuxt-link>
+            <nuxt-link
+              to="/bidder/bids"
+              class="nav-link mr-2 text-sm text-gray-600 hover:text-blue-700 border-b-2 border-white hover:border-blue-700"
+            >BIDS</nuxt-link>
+          </div>
+          <div class="mr-6" v-if="participantType == 'TenderingOrganization'">
+            <nuxt-link
+              to="/organization/notices"
+              class="nav-link mr-2 text-sm text-gray-600 hover:text-blue-700 border-b-2 border-white hover:border-blue-700"
+            >NOTICES</nuxt-link>
+            <nuxt-link
+              to="/organization/notices/create"
+              class="nav-link mr-2 text-sm text-gray-600 hover:text-blue-700 border-b-2 border-white hover:border-blue-700"
+            >CREATE NOTICE</nuxt-link>
+          </div>
           <p class>{{orgName}}</p>
           <div class="ml-4 w-8 h-8 bg-white rounded-full border border-gray-400 bg-gray-200"></div>
         </div>
@@ -30,7 +50,8 @@ export default {
     return {
       orgName: null,
       profilePicData: null,
-      homePageUrl: "#"
+      homePageUrl: "#",
+      participantType: null
     };
   },
   async mounted() {
@@ -43,6 +64,8 @@ export default {
     let session = window.localStorage.getItem("session");
     if (session) {
       session = JSON.parse(session);
+      this.participantType = session.participantType;
+      console.log(this.participantType);
       if (session.participantType == "TenderingOrganization") {
         this.homePageUrl = "/organization";
       } else if (session.participantType == "TenderBidder") {

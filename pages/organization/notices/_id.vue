@@ -1,13 +1,16 @@
 <template>
   <div>
-    <div class="pt-4 container mx-auto" v-if="!notice">
-      <p>Loading...</p>
-    </div>
-    <div id="myModal" class="modal" v-if="rejection">
+    <loading :visible="loading" />
+    <div id="myModal" class="modal" v-if="rejection" @click="onOutsideClicked">
       <div class="modal-content card container mx-auto px-4 xl:w-1/2 md:w-4/5">
-        <div class @click="closeRejectBidUI">Close</div>
-        <div class="section-title">Reject Tender Bid</div>
-        <div class="input-group">
+        <div class="up-navigation" @click="closeRejectBidUI">
+          <svg class="up-navigation-icon">
+            <use href="#close" />
+          </svg>
+          <p class="up-navigation-text">CLOSE</p>
+        </div>
+        <div class="mt-4 section-title">Reject Tender Bid</div>
+        <div class="mt-2 input-group">
           <label for="bidId" class="input-label">Tender Bid ID</label>
           <input
             type="text"
@@ -47,23 +50,22 @@
     </div>
     <div v-if="notice">
       <div class="bg-gray-200">
-        <div class="pt-4 pb-4 container mx-auto">
+        <div class="pt-4 pb-4 center-content">
           <nuxt-link to="/organization" class="up-navigation">
             <svg class="up-navigation-icon">
               <use href="#back" />
             </svg>
             <p class="up-navigation-text">BACK</p>
           </nuxt-link>
-          <div class="mt-2 flex items-center">
-            <h2 class="text-2xl">{{notice.title}}</h2>
-            <div class>
-              <p class="tag tag-gray" v-if="notice.status =='PUBLISHED'">{{notice.status}}</p>
-              <p class="tag tag-red" v-else-if="notice.status =='CLOSED'">{{notice.status}}</p>
-              <p class="tag tag-green" v-else-if="notice.status =='AWARDED'">{{notice.status}}</p>
-              <p class="tag tag-orange" v-else-if="notice.status =='WITHDRAWN'">{{notice.status}}</p>
-            </div>
-          </div>
+          <h2 class="text-2xl">{{notice.title}}</h2>
           <p class="px-2 bg-gray-300 rounded text-xs inline-block">{{notice.tenderId}}</p>
+          <div class>
+            <p class="tag tag-gray" v-if="notice.status =='PUBLISHED'">{{notice.status}}</p>
+            <p class="tag tag-red" v-else-if="notice.status =='CLOSED'">{{notice.status}}</p>
+            <p class="tag tag-green" v-else-if="notice.status =='AWARDED'">{{notice.status}}</p>
+            <p class="tag tag-orange" v-else-if="notice.status =='WITHDRAWN'">{{notice.status}}</p>
+          </div>
+
           <div class="mt-2">
             <div
               class="flex items-center w-fit cursor-pointer py-1 px-1 rounded border border-blue-700 bg-blue-100 text-blue-800 hover:bg-blue-700 hover:text-white"
@@ -74,7 +76,6 @@
               </svg>
               <p class="ml-2">Tender Document</p>
             </div>
-            <p class="mt-1 text-xs text-gray-700">SHA-256: {{notice.tenderDocument.documentHash}}</p>
           </div>
           <div class="mt-2 flex flex-wrap justify-between">
             <div class="mt-2">
@@ -94,9 +95,10 @@
               <p>{{notice.openingVenue}}</p>
             </div>
           </div>
+          <button class="mt-4 btn-withdraw" v-if="notice.status != 'AWARDED'">Withdraw</button>
         </div>
       </div>
-      <div class="pt-4 container mx-auto" v-if="bids">
+      <div class="pt-4 center-content" v-if="bids">
         <h2 class="text-xl text-gray-700">Bids</h2>
         <table class="mt-2 text-left w-full border-collapse card">
           <thead>
@@ -170,6 +172,8 @@
 </template>
 
 <script>
+import Loading from "@/components/Loading";
+
 String.prototype.capitalize = function() {
   return this.replace(/(?:^|\s)\S/g, function(a) {
     return a.toUpperCase();
@@ -177,8 +181,12 @@ String.prototype.capitalize = function() {
 };
 
 export default {
+  components: {
+    Loading
+  },
   data() {
     return {
+      loading: false,
       notice: null,
       bids: null,
       tenderId: null,
@@ -191,6 +199,7 @@ export default {
     const encodedTenderId = encodeURIComponent(this.tenderId);
 
     try {
+      this.loading = true;
       let res = await this.$axios({
         method: "get",
         url: `/api/notices/${encodedTenderId}`
@@ -208,7 +217,7 @@ export default {
 
       res.data.requiredDocuments = res.data.requiredDocuments.map(doc => {
         return doc
-          .replace("_", " ")
+          .replace(/_/g, " ")
           .toLowerCase()
           .capitalize();
       });
@@ -223,6 +232,8 @@ export default {
       });
 
       this.bids = res.data;
+
+      this.loading = false;
     } catch (e) {
       console.log(e);
       alert(e.message);
@@ -233,6 +244,7 @@ export default {
       try {
         const encodedTenderId = encodeURIComponent(this.tenderId);
 
+        this.loading = true;
         const res = await this.$axios({
           method: "post",
           url: `/api/notices/${encodedTenderId}/result`,
@@ -241,7 +253,11 @@ export default {
           }
         });
 
+        this.loading = false;
+
         alert("The bid has been selected as the winner.");
+
+        window.location.reload(true);
       } catch (e) {
         console.log(e);
         alert(e.response.data.message || e.message);

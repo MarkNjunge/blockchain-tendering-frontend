@@ -1,9 +1,63 @@
+.center-content {
+  margin-left: auto;
+  margin-right: auto;
+
+  // sm
+  @media (min-width: 640px) {
+    max-width: 640px;
+  }
+
+  // md
+  @media (min-width: 768px) {
+    max-width: 768px;
+  }
+
+  // lg
+  @media (min-width: 1024px) {
+    max-width: 1024px;
+  }
+
+  // xl
+  @media (min-width: 1280px) {
+    max-width: 1280px;
+    width: 60%;
+  }
+}
+
+.center-content-form {
+  margin-left: auto;
+  margin-right: auto;
+
+  // sm
+  @media (min-width: 640px) {
+    max-width: 640px;
+  }
+
+  // md
+  @media (min-width: 768px) {
+    max-width: 768px;
+    width: 60%;
+  }
+
+  // lg
+  @media (min-width: 1024px) {
+    max-width: 1024px;
+    width: 50%;
+  }
+
+  // xl
+  @media (min-width: 1280px) {
+    max-width: 1280px;
+    width: 50%;
+  }
+}
+
 .up-navigation {
   @apply text-gray-600 cursor-pointer flex items-center;
   width: fit-content;
 
   &-icon {
-    @apply w-2 h-2;
+    @apply w-4 h-4;
   }
 
   &-text {
@@ -28,7 +82,7 @@
 }
 
 .section-title {
-  @apply text-2xl text-gray-700;
+  @apply text-xl text-gray-700;
 }
 
 .input-checkbox {
@@ -86,7 +140,7 @@
   }
 
   .input-helper {
-    @apply text-xs text-gray-500;
+    @apply text-xs text-gray-600;
   }
 }
 
@@ -106,6 +160,14 @@
   }
 }
 
+.btn-withdraw {
+  @apply px-2 py-1 rounded bg-red-200 text-red-800;
+
+  &:hover {
+    @apply bg-red-700 text-white;
+  }
+}
+
 .w-fit {
   width: fit-content;
 }
@@ -114,32 +176,24 @@
   height: fit-content;
 }
 
-.action-button {
-  @apply mr-4 h-8 w-8 fill-current cursor-pointer bg-gray-400 p-1 rounded;
-
-  &:hover {
-    @apply bg-gray-500;
-  }
-}
-
 .tag {
-  @apply py-1 px-2 ml-2 font-bold rounded text-sm;
+  @apply py-1 px-2 font-bold rounded text-xs;
   width: fit-content;
 
   &-gray {
-    @apply bg-gray-300 text-gray-700;
+    @apply bg-gray-300 text-gray-800;
   }
 
   &-green {
-    @apply bg-green-200 text-green-700;
+    @apply bg-green-200 text-green-800;
   }
 
   &-orange {
-    @apply bg-orange-200 text-orange-700;
+    @apply bg-orange-200 text-orange-800;
   }
 
   &-red {
-    @apply bg-red-200 text-red-700;
+    @apply bg-red-200 text-red-800;
   }
 }
 
@@ -152,7 +206,7 @@ table {
       @apply bg-gray-100 font-bold uppercase text-sm text-gray-800 border-b border-gray-500;
 
       th {
-        @apply py-4 px-6;
+        @apply py-2 px-4;
       }
     }
   }
@@ -160,7 +214,7 @@ table {
   tbody {
     tr {
       td {
-        @apply py-2 px-6 border-b border-gray-300;
+        @apply py-2 px-4 border-b border-gray-300;
       }
     }
   }

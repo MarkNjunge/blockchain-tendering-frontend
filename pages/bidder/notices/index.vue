@@ -1,6 +1,5 @@
 <template>
-  <div class="container mx-auto">
-    <loading :visible="loading" />
+  <div class="center-content">
     <div v-if="notices">
       <h2 class="mt-8 section-title">Available Tenders</h2>
       <div class="mt-2 notices">
@@ -10,7 +9,6 @@
               <th>Notice ID</th>
               <th>Title</th>
               <th>Organization</th>
-              <th>Required document(s)</th>
               <th>Deadline</th>
               <th>Status</th>
               <th></th>
@@ -19,27 +17,29 @@
           </thead>
           <tbody>
             <tr v-for="(notice) in notices" :key="notice.tenderId">
-              <td>{{notice.tenderId}}</td>
+              <td>{{notice.tenderIdDisplay}}</td>
               <td>{{notice.title}}</td>
               <td>{{notice.organization.name}}</td>
-              <td>{{notice.requiredDocuments}}</td>
               <td>{{notice.submissionClosingDate}}</td>
               <td>
-                <p class="tag bg-gray-200 text-gray-800">{{notice.status}}</p>
+                <p class="tag tag-gray" v-if="notice.status =='PUBLISHED'">{{notice.status}}</p>
+                <p class="tag tag-red" v-else-if="notice.status =='CLOSED'">{{notice.status}}</p>
+                <p class="tag tag-green" v-else-if="notice.status =='AWARDED'">{{notice.status}}</p>
+                <p class="tag tag-orange" v-else-if="notice.status =='WITHDRAWN'">{{notice.status}}</p>
               </td>
               <td>
-                <svg
-                  class="w-4 h-4 fill-current cursor-pointer hover:text-blue-700"
-                  @click="openNotice(notice)"
-                >
-                  <use href="#open-link" />
-                </svg>
+                <nuxt-link :to="'/bidder/notices/' + encodeURIComponent(notice.tenderId)">
+                  <svg class="w-4 h-4 fill-current cursor-pointer hover:text-blue-700">
+                    <use href="#open-link" />
+                  </svg>
+                </nuxt-link>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
+    <loading :visible="loading" />
   </div>
 </template>
 
@@ -51,6 +51,24 @@ String.prototype.capitalize = function() {
     return a.toUpperCase();
   });
 };
+
+function truncate(text, limit) {
+  return (
+    text
+      .split(" ")
+      .slice(0, limit)
+      .join(" ") + "..."
+  );
+}
+
+function truncateChars(text, limit) {
+  return (
+    text
+      .split("")
+      .slice(0, limit)
+      .join("") + "..."
+  );
+}
 
 export default {
   components: {
@@ -71,16 +89,19 @@ export default {
         url: `/api/notices`
       });
 
+      const options = { dateStyle: "long" };
+      // const options = { timeStyle: "short", dateStyle: "long" };
+
       this.loading = false;
       this.notices = res.data.map(n => {
-        n.requiredDocuments = n.requiredDocuments
-          .map(d =>
-            d
-              .replace("_", " ")
-              .toLowerCase()
-              .capitalize()
-          )
-          .join(", ");
+        n.requiredDocuments = n.requiredDocuments.length;
+        n.title = truncate(n.title, 6);
+        n.organization.name = truncate(n.organization.name, 3);
+        n.tenderIdDisplay = truncateChars(n.tenderId, 10);
+
+        n.submissionClosingDate = new Date(
+          n.submissionClosingDate
+        ).toLocaleDateString("en-US", options);
         return { ...n };
       });
     } catch (e) {
@@ -104,11 +125,6 @@ export default {
         console.log(e);
         alert(e.message);
       }
-    },
-    openNotice(notice) {
-      this.$nuxt.$router.push({
-        path: `/bidder/notices/${encodeURIComponent(notice.tenderId)}`
-      });
     }
   }
 };

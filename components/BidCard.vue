@@ -12,14 +12,18 @@
         <p class="tag tag-red" v-else-if="bid.status == 'REJECTED'">{{bid.status}}</p>
       </div>
     </div>
-    <p class="text-gray-700">{{bid.tenderNotice.tenderId}}</p>
-    <div class="mt-4 flex justify-between items-baseline">
-      <p class="text-gray-500">{{bid.datePosted}}</p>
-      <p
-        class="py-1 px-2 font-bold rounded bg-red-200 text-red-800 hover:bg-red-600 hover:text-black"
-        @click="withdraw(bid)"
-      >Withdraw</p>
+    <div class="flex items-center">
+      <div class="h-4 w-4 bg-gray-500 rounded-full" v-if="bid.tenderNotice.status =='PUBLISHED'"></div>
+      <div class="h-4 w-4 bg-red rounded-full" v-else-if="bid.tenderNotice.status =='CLOSED'"></div>
+      <div
+        class="h-4 w-4 bg-green-500 rounded-full"
+        v-else-if="bid.tenderNotice.status =='AWARDED'"
+      ></div>
+      <div class="h-4 w-4 bg-orange rounded-full" v-else-if="bid.tenderNotice.status =='WITHDRAWN'"></div>
+
+      <p class="ml-2 text-gray-700">{{bid.tenderNotice.tenderId}}</p>
     </div>
+    <p class="mt-4 text-gray-700">Posted on {{bid.datePosted}}</p>
   </nuxt-link>
 </template>
 

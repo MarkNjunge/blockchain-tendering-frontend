@@ -1,6 +1,8 @@
 <template>
-  <div class="container mx-auto px-4 xl:w-1/2 md:w-4/5">
-    <form @submit="onSubmit" class="card" v-if="!downloadToken">
+  <div class="center-content-form">
+    <logo />
+    <h2 class="mt-4 section-title">Enter your details to create an account</h2>
+    <form @submit="onSubmit" class="mt-2 card" v-if="!downloadToken">
       <div class="input-group">
         <label for="participantType" class="input-label">Participant Type</label>
         <select
@@ -62,8 +64,13 @@
 </template>
 
 <script>
+import Logo from "~/components/Logo.vue";
+
 export default {
   layout: "no-bar",
+  components: {
+    Logo
+  },
   data() {
     return {
       participantType: "TenderingOrganization",

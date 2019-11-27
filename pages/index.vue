@@ -1,49 +1,49 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        block-t
-      </h1>
-      <h2 class="subtitle">
-        Blockchain-based tendering
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+  <div class="flex flex-col items-center">
+    <logo />
+    <nuxt-link :to="dashboard" class="mt-4 flex text-gray-500 hover:text-gray-800">
+      <h3 class="font-bold mr-2">Proceed to dashboard</h3>
+      <svg class="w-6 h-6 fill-current">
+        <use href="#arrow-right" />
+      </svg>
+    </nuxt-link>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import Logo from "~/components/Logo.vue";
 
 export default {
+  layout: "no-bar",
   components: {
     Logo
+  },
+  data() {
+    return {
+      dashboard: "#"
+    };
+  },
+  mounted() {
+    let session = window.localStorage.getItem("session");
+    if (session) {
+      session = JSON.parse(session);
+
+      switch (session.participantType) {
+        case "TenderingOrganization":
+          this.dashboard = "/organization";
+          break;
+        case "TenderBidder":
+          this.dashboard = "/bidder";
+          break;
+        default:
+          break;
+      }
+    }
   }
-}
+};
 </script>
 
 <style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-  @apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
 .container {
   margin: 0 auto;
   min-height: 100vh;
@@ -51,27 +51,5 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
 }
 </style>

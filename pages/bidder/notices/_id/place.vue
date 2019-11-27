@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-8 container mx-auto px-4 xl:w-1/2 md:w-4/5">
+  <div class="mt-8 center-content-form">
     <div to="/bidder" class="up-navigation" @click="back">
       <svg class="up-navigation-icon">
         <use href="#back" />
@@ -33,13 +33,15 @@
       </div>
       <div class="mt-3 input-group">
         <label for="bidSummary" class="input-label">Bid Summary</label>
-        <input
+        <textarea
           type="text"
           name="bidSummary"
           id="bidSummary"
           v-model="bidSummary"
           class="input-field"
+          rows="4"
         />
+        <span class="input-helper">The introduction of your 'Form of Tender'</span>
       </div>
 
       <div class="mt-3 input-group">
@@ -100,7 +102,7 @@ export default {
     res.data.requiredDocuments = res.data.requiredDocuments.map(doc => ({
       ref: doc,
       name: doc
-        .replace("_", " ")
+        .replace(/_/g, " ")
         .toLowerCase()
         .capitalize()
     }));

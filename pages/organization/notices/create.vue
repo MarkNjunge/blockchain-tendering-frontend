@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-4 xl:w-1/2 md:w-4/5">
+  <div class="center-content-form">
     <nuxt-link to="/organization" class="mt-4 up-navigation">
       <!-- M1 -->
       <svg viewBox="0 0 320 512" class="up-navigation-icon">
@@ -8,10 +8,6 @@
           d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"
         />
       </svg>
-      <!-- M2 -->
-      <!-- <svg class="up-navigation-icon">
-        <use href="#back" />
-      </svg>-->
       <p class="up-navigation-text">BACK</p>
     </nuxt-link>
 
@@ -43,24 +39,24 @@
           <div class="input-checkbox">
             <input
               type="checkbox"
-              name="nhif"
-              id="nhif"
+              name="businessPermit"
+              id="businessPermit"
               class="input-checkbox-box"
-              value="nhif"
-              v-model="nhif"
+              value="businessPermit"
+              v-model="businessPermit"
             />
-            <label for="nhif" class="input-checkbox-label">NHIF Clearance Certificate</label>
+            <label for="businessPermit" class="input-checkbox-label">Business Permit</label>
           </div>
           <div class="input-checkbox">
             <input
               type="checkbox"
-              name="kra"
-              id="kra"
+              name="taxCert"
+              id="taxCert"
               class="input-checkbox-box"
-              value="kra"
-              v-model="kra"
+              value="taxCert"
+              v-model="taxCert"
             />
-            <label for="kra" class="input-checkbox-label">KRA Clearance Certificate</label>
+            <label for="taxCert" class="input-checkbox-label">Tax Clearance Certificate</label>
           </div>
           <div class="input-checkbox">
             <input
@@ -73,6 +69,17 @@
             />
             <label for="bidBond" class="input-checkbox-label">Bid Bond</label>
           </div>
+          <div class="input-checkbox">
+            <input
+              type="checkbox"
+              name="nhif"
+              id="nhif"
+              class="input-checkbox-box"
+              value="nhif"
+              v-model="nhif"
+            />
+            <label for="nhif" class="input-checkbox-label">NHIF Clearance Certificate</label>
+          </div>
         </div>
         <div class="mt-3 input-group">
           <label for="extraRequiredDocuments" class="input-label">Extra Required Documents</label>
@@ -80,10 +87,10 @@
             type="text"
             id="extraRequiredDocuments"
             name="extraRequiredDocuments"
-            placeholder="Enter a list separated by commas"
             class="input-field"
             v-model="extraRequiredDocuments"
           />
+          <p class="input-helper">Enter a list separated by commas</p>
         </div>
         <div class="mt-3 input-group">
           <label for="closingDate" class="input-label">Tender Closing Date</label>
@@ -132,9 +139,10 @@ export default {
       openingDate: null,
       openingVenue: null,
       closingDate: null,
-      nhif: true,
-      kra: true,
-      bidBond: false,
+      businessPermit: true,
+      taxCert: true,
+      bidBond: true,
+      nhif: false,
       extraRequiredDocuments: "",
       title: null,
       ref: null
@@ -155,14 +163,17 @@ export default {
       }
 
       const requiredDocuments = [];
-      if (this.nhif) {
-        requiredDocuments.unshift("nhif");
+      if (this.businessPermit) {
+        requiredDocuments.unshift("business permit");
       }
-      if (this.kra) {
-        requiredDocuments.unshift("kra");
+      if (this.taxCert) {
+        requiredDocuments.unshift("tax clearance certificate");
       }
       if (this.bidBond) {
         requiredDocuments.unshift("bid bond");
+      }
+      if (this.nhif) {
+        requiredDocuments.unshift("nhif clearance certificate");
       }
       if (this.extraRequiredDocuments != "") {
         this.extraRequiredDocuments

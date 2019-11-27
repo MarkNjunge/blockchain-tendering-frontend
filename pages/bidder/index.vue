@@ -1,18 +1,19 @@
 <template>
   <div>
-    <div v-if="bids" class="container mx-auto mt-8">
-      <h2 class="text-gray-700">Recent bids</h2>
+    <!-- Recent bids -->
+    <div v-if="bids" class="center-content mt-8">
+      <h2 class="section-title">Recent bids</h2>
       <div class="recent-bids mt-2 mb-2">
         <BidCard v-for="(bid, index) in bids" :key="index" :bid="bid" />
       </div>
-      <nuxt-link to="/bidder/bids" class="font-bold hover:text-blue-700">See all</nuxt-link>
+      <nuxt-link to="/bidder/bids" class="font-bold text-blue-800 hover:text-blue-600">See all</nuxt-link>
     </div>
-    <div class="container mx-auto mt-6" v-if="notices">
-      <h2 class="text-gray-700">Recent Notices</h2>
+    <div class="center-content mt-6" v-if="notices">
+      <h2 class="section-title">Recent Notices</h2>
       <div class="recent-notices mt-2 mb-2">
         <BidderNoticeCard v-for="(notice, index) in notices" :key="index" :notice="notice" />
       </div>
-      <nuxt-link to="/bidder/notices" class="font-bold hover:text-blue-700">See all</nuxt-link>
+      <nuxt-link to="/bidder/notices" class="font-bold text-blue-800 hover:text-blue-600">See all</nuxt-link>
     </div>
     <Loading :visible="loading" />
   </div>

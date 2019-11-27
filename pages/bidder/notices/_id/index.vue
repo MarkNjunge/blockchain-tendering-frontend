@@ -2,22 +2,18 @@
   <div class>
     <div class v-if="notice">
       <div class="pt-4 pb-4 bg-gray-200">
-        <div class="container mx-auto px-4 xl:w-1/2 md:w-4/5">
+        <div class="center-content">
+          <!-- <div class="container mx-auto px-4 xl:w-1/2 md:w-4/5"> -->
           <div class="flex justify-between items-end">
             <div class="w-full">
-              <div class="mt-2 flex items-center">
-                <h2 class="text-2xl">{{notice.title}}</h2>
-                <div class>
-                  <p class="tag tag-gray" v-if="notice.status =='PUBLISHED'">{{notice.status}}</p>
-                  <p class="tag tag-red" v-else-if="notice.status =='CLOSED'">{{notice.status}}</p>
-                  <p class="tag tag-green" v-else-if="notice.status =='AWARDED'">{{notice.status}}</p>
-                  <p
-                    class="tag tag-orange"
-                    v-else-if="notice.status =='WITHDRAWN'"
-                  >{{notice.status}}</p>
-                </div>
-              </div>
+              <h2 class="mt-2 text-xl">{{notice.title}}</h2>
               <p class="px-2 bg-gray-300 rounded text-xs inline-block">{{notice.tenderId}}</p>
+              <div class="mt-2">
+                <p class="tag tag-gray" v-if="notice.status =='PUBLISHED'">{{notice.status}}</p>
+                <p class="tag tag-red" v-else-if="notice.status =='CLOSED'">{{notice.status}}</p>
+                <p class="tag tag-green" v-else-if="notice.status =='AWARDED'">{{notice.status}}</p>
+                <p class="tag tag-orange" v-else-if="notice.status =='WITHDRAWN'">{{notice.status}}</p>
+              </div>
               <div class="mt-4 flex justify-between">
                 <div class>
                   <p class="text-gray-600 text-sm">Date Published</p>
@@ -41,12 +37,12 @@
         </div>
       </div>
     </div>
-    <div class="container mx-auto mt-4 px-4 xl:w-1/2 md:w-4/5" v-if="bid">
-      <h2 class="text-gray-700">Your bid</h2>
+    <div class="center-content-form mt-4" v-if="bid">
+      <h2 class="section-title">Your bid</h2>
       <div class="mt-2 card-p-6">
         <div class="flex items-baseline">
           <p class="mt-2 font-bold">{{bid.bidId}}</p>
-          <div class>
+          <div class="ml-2">
             <p class="tag tag-gray" v-if="bid.status == 'ACTIVE'">{{bid.status}}</p>
             <p class="tag tag-green" v-else-if="bid.status == 'ACCEPTED'">{{bid.status}}</p>
             <p class="tag tag-orange" v-else-if="bid.status == 'WITHDRAWN'">{{bid.status}}</p>
@@ -80,22 +76,25 @@
           <p class="mt-2 text-gray-600">{{bid.datePosted}}</p>
 
           <button
-            class="mt-4 px-2 py-1 rounded bg-red-200 text-red-800 hover:bg-red-700 hover:text-white"
+            class="btn-withdraw"
+            @click="withdrawBid"
+            v-if="bidCanBeWithdrawn(bid.status)"
           >Withdraw</button>
         </div>
       </div>
     </div>
-    <div class="container mx-auto mt-4 px-4 xl:w-1/2 md:w-4/5" v-if="bid == false">
-      <div
-        class="flex flex-col items-center justify-center cursor-pointer text-gray-700 hover:text-gray-800 p-6 bg-white rounded border border-blue-700 shadow inline-block"
-        @click="placeBid"
-      >
-        <h2 class="text-lg">No bid placed</h2>
-        <h3 class="text-sm">Place a bid</h3>
-        <svg class="mt-2 w-6 h-6 fill-current">
-          <use href="#add" />
-        </svg>
-      </div>
+    <div class="mt-8 center-content-form" v-if="bid == false">
+      <nuxt-link :to="'/bidder/notices/' + encodeURIComponent(this.noticeId) + '/place'">
+        <div
+          class="flex flex-col items-center justify-center cursor-pointer text-gray-700 hover:text-gray-800 p-6 bg-white rounded border border-blue-700 shadow inline-block"
+        >
+          <h2 class="text-lg">No bid placed</h2>
+          <h3 class="text-sm">Place a bid</h3>
+          <svg class="mt-2 w-6 h-6 fill-current">
+            <use href="#add" />
+          </svg>
+        </div>
+      </nuxt-link>
     </div>
 
     <loading :visible="loading" />
@@ -162,7 +161,7 @@ export default {
 
       res.data.requiredDocuments = res.data.requiredDocuments.map(doc => {
         const n = doc.key
-          .replace("_", " ")
+          .replace(/_/g, " ")
           .toLowerCase()
           .capitalize();
 
@@ -182,7 +181,7 @@ export default {
       this.loading = false;
 
       if (e.response.status == 404) {
-        this.bid == false;
+        this.bid = false;
       } else {
         console.log(e);
         alert(e.message);
@@ -190,10 +189,15 @@ export default {
     }
   },
   methods: {
-    placeBid() {
-      this.$nuxt.$router.push({
-        path: `/bidder/notices/${encodeURIComponent(this.noticeId)}/place`
+    async withdrawBid() {
+      this.loading = true;
+      const res = await this.$axios({
+        method: "delete",
+        url: `/api/bids/${encodeURIComponent(this.bid.bidId)}`
       });
+      this.loading = false;
+
+      alert("Your bid has been withdrawn");
     },
     async downloadFile(ref) {
       try {
@@ -207,6 +211,17 @@ export default {
       } catch (e) {
         console.log(e);
         alert(e.message);
+      }
+    },
+    bidCanBeWithdrawn(status) {
+      if (
+        status == "ACCEPTED" ||
+        status == "WITHDRAWN" ||
+        status == "REJECTED"
+      ) {
+        return false;
+      } else {
+        return true;
       }
     }
   }

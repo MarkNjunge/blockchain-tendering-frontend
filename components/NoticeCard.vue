@@ -4,15 +4,11 @@
       <h3 class="text-lg">{{notice.title}}</h3>
     </div>
     <p class="mt-1 px-1 bg-gray-200 rounded w-fit text-sm">{{notice.tenderId}}</p>
-    <p class="mt-4 text-sm text-gray-600">Total Bids</p>
-    <div class="flex items-baseline">
-      <p class="text-2xl">34</p>
-      <p class="ml-1">bid</p>
+    <div class="mt-2 flex items-baseline">
+      <p class="text-xl">34</p>
+      <p class="ml-1">bids placed</p>
     </div>
-    <div class="mt-2 flex">
-      <p class="text-gray-600">Deadline:</p>
-      <p class="ml-2">{{notice.submissionClosingDate}}</p>
-    </div>
+    <p class="mt-1">Bids due {{notice.submissionClosingDate}}</p>
   </div>
 </template>
 

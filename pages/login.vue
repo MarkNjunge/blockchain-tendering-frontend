@@ -1,5 +1,6 @@
 <template>
-  <div class="container mx-auto px-4 xl:w-1/2 md:w-4/5">
+  <div class="center-content-form">
+    <logo />
     <h1 class="section-title mt-2">Upload your card to login</h1>
     <div class="card mt-2 mb-8">
       <div class="input-group">
@@ -12,8 +13,13 @@
 </template>
 
 <script>
+import Logo from "~/components/Logo.vue";
+
 export default {
   layout: "no-bar",
+  components: {
+    Logo
+  },
   data() {
     return {
       selectedFile: null

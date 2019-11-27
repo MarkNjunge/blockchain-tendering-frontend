@@ -1,25 +1,33 @@
 <template>
   <div>
-    <div id="recent-notices" class="bg-gray-200">
-      <div class="pt-4 pb-4 container mx-auto">
-        <h2 class="mt-4 section-title">Recent Tender Notices</h2>
-        <div class="mt-2 recent-notices">
-          <div v-for="(notice, index) in notices" :key="index">
-            <nuxt-link :to="'/organization/notices/' + encodeURIComponent(notice.tenderId)">
-              <NoticeCard :notice="notice" />
-            </nuxt-link>
-          </div>
-          <nuxt-link to="/organization/notices/create">
-            <div class="card h-full">
-              <div class="flex flex-col h-full justify-center items-center">
-                <svg class="h-16 w-16 fill-current text-gray-700">
-                  <use href="#add" />
-                </svg>
-                <h2 class="text-gray-700 text-xl">Create a Notice</h2>
-              </div>
-            </div>
+    <!-- Top content -->
+    <div id="recent-notices" class="bg-gray-200 py-8">
+      <div class="center-content flex justify-between">
+        <DashboardWidget :icon="'open-folder'" :number="4" :text="'Open Notices'" />
+        <DashboardWidget :icon="'closed-folder'" :number="12" :text="'Total Notices'" />
+        <DashboardWidget :icon="'open-folder'" :number="10" :text="'Pending Bids'" />
+        <DashboardWidget :icon="'archive'" :number="32" :text="'Bids Placed'" />
+      </div>
+    </div>
+    <!-- Bottom Content -->
+    <div class="pt-4 pb-4 center-content">
+      <h2 class="mt-4 section-title">Recent Tender Notices</h2>
+      <div class="mt-2 recent-notices">
+        <div v-for="(notice, index) in notices" :key="index">
+          <nuxt-link :to="'/organization/notices/' + encodeURIComponent(notice.tenderId)">
+            <NoticeCard :notice="notice" />
           </nuxt-link>
         </div>
+        <nuxt-link to="/organization/notices/create">
+          <div class="card h-full">
+            <div class="flex flex-col h-full justify-center items-center">
+              <svg class="h-16 w-16 fill-current text-gray-700">
+                <use href="#add" />
+              </svg>
+              <h2 class="text-gray-700 text-xl">Create a Notice</h2>
+            </div>
+          </div>
+        </nuxt-link>
       </div>
     </div>
   </div>
@@ -27,10 +35,12 @@
 
 <script>
 import NoticeCard from "@/components/NoticeCard";
+import DashboardWidget from "@/components/DashboardWidget";
 
 export default {
   components: {
-    NoticeCard
+    NoticeCard,
+    DashboardWidget
   },
   data() {
     return {
